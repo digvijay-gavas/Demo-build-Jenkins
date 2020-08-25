@@ -9,8 +9,12 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install' 
-                docker.build("digvijay0gavas/hello-world-demo")
+                script {
+                    def customImage = docker.build("digvijay0gavas/hello-world-demo")
+                    //customImage.push()
+                }   
             }
+            
         }
         stage('Test') {
             steps {

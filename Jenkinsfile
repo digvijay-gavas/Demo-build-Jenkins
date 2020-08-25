@@ -3,12 +3,13 @@ pipeline {
     tools {
         // versions of jdk and maven were installed in local instance of Jenkins
         jdk "JDK8"
-        maven "3.6.3"
+        maven "MVN3.6.3"
     }
     stages {
         stage('Build') {
             steps {
-                bat 'mvn -Dmaven.test.failure.ignore=true install' 
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+                docker.build("digvijay0gavas/hello-world-demo")
             }
         }
         stage('Test') {

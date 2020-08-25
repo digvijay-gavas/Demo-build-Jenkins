@@ -1,17 +1,22 @@
 pipeline {
     agent any
+    tools {
+        // versions of jdk and maven were installed in local instance of Jenkins
+        jdk "JDK8"
+        maven "3.6.3"
+    }
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                echo 'build stage'
+                bat 'mvn -Dmaven.test.failure.ignore=true install' 
             }
         }
-        stage('test') {
+        stage('Test') {
             steps {
                 echo 'test stage'
             }
         }
-        stage('deploy') {
+        stage('Deploy') {
             steps {
                 echo 'deploy stage'
             }

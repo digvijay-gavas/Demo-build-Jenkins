@@ -6,31 +6,32 @@ pipeline {
         maven "MVN3.6.3"
     }
     stages {
-        stages {
-            stage('parameters') {
-                steps {
-                    script { 
-                        properties([
-                            parameters([
-                                booleanParam(
-                                    defaultValue: false, 
-                                    description: '', 
-                                    name: 'deploy'
-                                )
-                            ])
+        stage('parameters') {
+            steps {
+                script { 
+                    properties([
+                        parameters([
+                            booleanParam(
+                                defaultValue: false, 
+                                description: '', 
+                                name: 'deploy'
+                            )
                         ])
-                    }
+                    ])
                 }
             }
-        }  
+        }
         stage('Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install' 
                 script {
-                    def deployableDockerImage = docker.build("hello-world-digvijay:${BUILD_ID}")
-                    // pushing docker to public repo hub.docker.io. 
-                    // In reality it will be deployed to some private repository 
-                    deployableDockerImage.push() 
+                    docker.withRegistry('https://registry.hub.docker.com/library', 'digvijay-cred') {
+                        def deployableDockerImage = docker.build("digvijay0gavas/hello-world:${BUILD_ID}")
+                        // pushing docker to public repo https://hub.docker.com. 
+                        // In reality it will be deployed to some private repository 
+                        deployableDockerImage.push() 
+                    }
+                    
                 }   
             }
             post {

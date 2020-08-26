@@ -44,7 +44,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression { 
-                   return deploy == true
+                   return params.deploy == true
                 }
             }
             steps {

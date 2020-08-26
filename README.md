@@ -1,12 +1,19 @@
 ## Synopsis
 
-The project was created for demonstrating building using Jenkins and docker file
+The project was created for demonstrating build process using Jenkins and docker file. There is simple Hello world application created using spring boot which have GET REST endpoint which returns the Options object having {name,description,link} properties as JSON array.
 
-## Installation
+## How to use
+The project is have Jenkins CI/CD with Jenkinsfile in SCM. The Jenkinsfile will generate Docker image with name 'digvijay0gavas/hello-world' and upload it to registry.hub.docker.com. The docker image can be started with cmd `docker run -p 5060:5060 digvijay0gavas/hello-world:33`. The GET endpoint can be accessed on port ip_or_dn:5060/rest
 
-configure the project in Jenkins and setup following tools
-1. jdk "JDK8"
-2. maven "3.6.3" 
+## How to setup Jenkins CI/CD pipeline to build the App
+1. create empty pipeline job (lets say 'Demo-build-Jenkins')
+2. goto Configure --> Pipeline section and select 'Definition' as 'Pipeline script for SCM'
+3. select SCM as GIT and add the repo url https://github.com/digvijay-gavas/Demo-build-Jenkins.git
+4. add jdk and maven tool in 'Manage Jenkins' --> 'Global Tool Configuration' with name JDK8 and MVN3.6.3 respectively
+5. add Jenkins credential with id 'digvijay-cred' (depends on docker repository)
+6. The Jenkins job is already set up for this repo on cloud m/c see **URLs** section
 
-## Ready To Test
-ready to test docker images are uploaded to https://hub.docker.com/r/digvijay0gavas/hello-world
+## URLs
+1. ready to test docker images are uploaded to https://hub.docker.com/r/digvijay0gavas/hello-world
+2. Jenkins job to build the project is at https://35.224.137.252/job/Demo-build-Jenkins/ use credential (user: developer, pass: developer)
+Note: the https://35.224.137.252/ have unsigned certificate and browsers will not straight away allow the URL to access.
